@@ -274,6 +274,25 @@
       color: #e60000;
     }
 
+    .notification-badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background-color: #ff0000;
+      color: white;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      border: 2px solid white;
+      z-index: 5;
+    }
+
     @media (max-width: 768px) {
       h1 {
         font-size: 3.5rem;
@@ -374,6 +393,7 @@
 
     <div class="envelope-icon" id="openModal">
       <i class="fas fa-envelope"></i>
+      <div class="notification-badge" id="notificationBadge">1</div>
     </div>
   </div>
 
@@ -418,6 +438,16 @@ MRZ</div>
         starsContainer.appendChild(star);
       }
     }
+
+    // Check if message has been read before
+    document.addEventListener("DOMContentLoaded", function() {
+      const badge = document.getElementById("notificationBadge");
+      const hasReadMessage = localStorage.getItem("eidMessageRead") === "true";
+
+      if (hasReadMessage && badge) {
+        badge.style.display = "none";
+      }
+    });
 
     // Enhanced confetti generator
     function createConfetti() {
@@ -541,6 +571,14 @@ MRZ</div>
 
     // Open modal with animation
     openModalBtn.addEventListener("click", () => {
+      // Hide notification badge when message is opened
+      const badge = document.getElementById("notificationBadge");
+      if (badge) {
+        badge.style.display = "none";
+        // Remember that user has read the message
+        localStorage.setItem("eidMessageRead", "true");
+      }
+
       modal.style.display = "block";
       document.body.style.overflow = "hidden"; // Prevent background scrolling
       setTimeout(() => {
