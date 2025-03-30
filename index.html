@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eid Mubarak</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&family=Noto+Sans+Arabic:wght@300;400;500&family=Amiri&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('image.jpeg') no-repeat center center/cover;
+      background-attachment: fixed;
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+      position: relative;
+      touch-action: manipulation;
+    }
+
+    .stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle 4s infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: 0.2; }
+      50% { opacity: 1; }
+      100% { opacity: 0.2; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 2rem;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .greeting-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 3rem 2rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      animation: initialFloat 8s ease-in-out forwards;
+    }
+
+    @keyframes initialFloat {
+      0%, 100% { transform: translateY(0px); }
+      25% { transform: translateY(-15px); }
+      50% { transform: translateY(0px); }
+      75% { transform: translateY(-10px); }
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      margin-bottom: 1rem;
+      color: #f8d56c;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    p {
+      font-size: 1.4rem;
+      font-weight: 300;
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .envelope-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 100px;
+      background: #f8d56c;
+      color: #533112;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      margin: 0 auto;
+      position: relative;
+      animation: pulse 2s infinite;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .envelope-icon i {
+      font-size: 3rem;
+    }
+
+    .envelope-icon:hover, .envelope-icon:active {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+      background: #f5c845;
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.8);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .modal.show {
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, #fff8e1, #fffde7);
+      color: #533112;
+      margin: 5% auto;
+      width: 90%;
+      max-width: 600px;
+      padding: 3rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      position: relative;
+      transform: translateY(50px);
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+
+    .modal-content.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: #888;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      z-index: 5;
+    }
+
+    .close:hover {
+      color: #333;
+    }
+
+    .letter {
+      font-family: 'Poppins', sans-serif;
+      white-space: pre-line;
+      line-height: 1.7;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: #3a2508;
+    }
+
+    .letter-heading {
+      font-family: 'Noto Sans Arabic', 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #533112;
+      border-bottom: 2px solid #f8d56c;
+      padding-bottom: 0.5rem;
+    }
+
+    .donation-link {
+      display: inline-block;
+      background: #f8d56c;
+      color: #533112;
+      text-decoration: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
+
+    .donation-link:hover, .donation-link:active {
+      background: #f5c845;
+      transform: translateY(-2px);
+    }
+
+    .signature {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      margin-top: 0.8rem;
+      text-align: left;
+      color: #533112;
+    }
+
+    /* Confetti container */
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+      perspective: 700px;
+    }
+
+    .confetti {
+      position: absolute;
+      will-change: transform;
+    }
+
+    .palestine-text {
+      display: inline-block;
+      font-weight: 500;
+    }
+
+    .p-black {
+      color: #000000;
+    }
+
+    .p-green {
+      color: #0d8c3e;
+    }
+
+    .p-red {
+      color: #e60000;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 3.5rem;
+      }
+
+      p {
+        font-size: 1.1rem;
+      }
+
+      .greeting-card {
+        padding: 2rem 1.5rem;
+      }
+
+      .envelope-icon {
+        width: 80px;
+        height: 80px;
+      }
+
+      .envelope-icon i {
+        font-size: 2.5rem;
+      }
+
+      .modal-content {
+        padding: 2rem;
+        margin: 10% auto;
+      }
+
+      .letter {
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .letter-heading {
+        font-size: 1.6rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 3rem;
+      }
+
+      .container {
+        padding: 1.5rem;
+      }
+
+      .greeting-card {
+        padding: 1.5rem 1rem;
+      }
+
+      .envelope-icon {
+        width: 70px;
+        height: 70px;
+      }
+
+      .envelope-icon i {
+        font-size: 2rem;
+      }
+
+      .modal-content {
+        padding: 1.5rem;
+        margin: 10% auto;
+        max-height: 85vh;
+        overflow-y: auto;
+      }
+
+      .close {
+        top: 10px;
+        right: 10px;
+      }
+
+      .donation-link {
+        display: block;
+        text-align: center;
+        margin: 1.5rem auto;
+        padding: 0.8rem 1rem;
+      }
+
+      .letter {
+        line-height: 1.5;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Star background effect -->
+  <div class="stars" id="stars"></div>
+
+  <!-- Confetti container -->
+  <div class="confetti-container" id="confetti-container"></div>
+
+  <div class="container">
+    <div class="greeting-card">
+      <h1>Eid Mubarak</h1>
+      <p>Wishing you joy, peace, and blessings on this special day.</p>
+    </div>
+
+    <div class="envelope-icon" id="openModal">
+      <i class="fas fa-envelope"></i>
+    </div>
+  </div>
+
+  <!-- Modal for the letter -->
+  <div id="letterModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h2 class="letter-heading">Eid Greetings</h2>
+      <div class="letter">
+Assalamu Alaikum Dear,
+
+Eid Mubarak to you and your family! Happy our site helped during Ramadan with 1100+ IPs and 2200+ usages. InShaAllah our V2 update will serve you better.
+
+Eid is about sharing love and happiness. Please consider sharing some joy with our brothers and sisters in <span class="palestine-text"><span class="p-black">P</span><span class="p-green">a</span><span class="p-red">l</span><span class="p-black">e</span><span class="p-green">s</span><span class="p-red">t</span><span class="p-black">i</span><span class="p-green">n</span><span class="p-red">e</span></span>.
+<a href="https://donation.bkash.com/en/pe/donate" class="donation-link" target="_blank">Donate Here</a>
+Wishing you a blessed Eid.
+<div class="signature">With love,
+MRZ</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Generate random stars for background
+    function createStars() {
+      const starsContainer = document.getElementById('stars');
+      const starCount = 100;
+
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.left = `${Math.random() * 100}%`;
+
+        const size = Math.random() * 3 + 1;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+
+        star.style.animationDelay = `${Math.random() * 5}s`;
+
+        starsContainer.appendChild(star);
+      }
+    }
+
+    // Enhanced confetti generator
+    function createConfetti() {
+      const confettiContainer = document.getElementById('confetti-container');
+      const confettiCount = 120;
+      const colors = ['#f8d56c', '#ffd88a', '#f1ad64', '#c8a951', '#ffe0a3'];
+      const shapes = ['circle', 'square', 'triangle', 'rectangle'];
+
+      // Add custom CSS for different shapes
+      const styleEl = document.createElement('style');
+      styleEl.textContent = `
+        .confetti-circle {
+          border-radius: 50%;
+        }
+        .confetti-square {
+          border-radius: 0;
+        }
+        .confetti-triangle {
+          width: 0 !important;
+          height: 0 !important;
+          border-left: 8px solid transparent;
+          border-right: 8px solid transparent;
+          border-bottom: 16px solid;
+          background-color: transparent !important;
+        }
+        .confetti-rectangle {
+          border-radius: 2px;
+        }
+
+        @keyframes confetti-fall {
+          0% { transform: translate3d(0, -100px, 0) rotateX(0) rotateY(0) rotateZ(0); }
+          100% { transform: translate3d(var(--finalX), 105vh, var(--finalZ)) rotateX(var(--finalRotX)) rotateY(var(--finalRotY)) rotateZ(var(--finalRotZ)); }
+        }
+
+        @keyframes confetti-sway {
+          0% { transform: translateX(0); }
+          50% { transform: translateX(var(--swayAmount)); }
+          100% { transform: translateX(calc(var(--swayAmount) * -0.5)); }
+        }
+      `;
+      document.head.appendChild(styleEl);
+
+      for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+
+        // Select random shape
+        const shape = shapes[Math.floor(Math.random() * shapes.length)];
+        confetti.classList.add(`confetti-${shape}`);
+
+        // Size and style
+        const size = shape === 'triangle' ? 10 : Math.random() * 8 + 6;
+        confetti.style.width = `${size}px`;
+        confetti.style.height = `${size}px`;
+
+        // Color
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        if (shape === 'triangle') {
+          confetti.style.borderBottomColor = color;
+        } else {
+          confetti.style.backgroundColor = color;
+        }
+
+        // Initial position
+        confetti.style.left = `${Math.random() * 100}%`;
+        confetti.style.top = `${Math.random() * -10 - 20}px`;
+
+        // Depth and opacity for realistic effect
+        const depth = Math.random();
+        const opacity = 0.6 + (depth * 0.4);
+        const scale = 0.7 + (depth * 0.7);
+        confetti.style.opacity = opacity.toString();
+        confetti.style.transform = `scale(${scale})`;
+
+        // Animation variables
+        const duration = 3 + (Math.random() * 4);
+        const delay = Math.random() * 3;
+        const finalX = (Math.random() * 100) - 50; // final horizontal position
+        const finalZ = Math.random() * 80 - 40; // final depth position
+        const finalRotX = Math.random() * 720 - 360;
+        const finalRotY = Math.random() * 720 - 360;
+        const finalRotZ = Math.random() * 720 - 360;
+        const swayAmount = Math.random() * 50 - 25;
+
+        // Set CSS variables for the animations
+        confetti.style.setProperty('--finalX', `${finalX}px`);
+        confetti.style.setProperty('--finalZ', `${finalZ}px`);
+        confetti.style.setProperty('--finalRotX', `${finalRotX}deg`);
+        confetti.style.setProperty('--finalRotY', `${finalRotY}deg`);
+        confetti.style.setProperty('--finalRotZ', `${finalRotZ}deg`);
+        confetti.style.setProperty('--swayAmount', `${swayAmount}px`);
+
+        // Apply animations
+        confetti.style.animation = `
+          confetti-fall ${duration}s cubic-bezier(0.21, 0.53, 0.29, 0.99) ${delay}s forwards,
+          confetti-sway ${duration * 0.5}s ease-in-out ${delay}s infinite alternate
+        `;
+
+        confettiContainer.appendChild(confetti);
+      }
+
+      // Remove confetti after animation completes
+      setTimeout(() => {
+        while (confettiContainer.firstChild) {
+          confettiContainer.removeChild(confettiContainer.firstChild);
+        }
+      }, 8000);
+    }
+
+    // Initialize stars
+    createStars();
+
+    // Show confetti on page load
+    window.addEventListener('load', createConfetti);
+
+    // Modal functionality with enhanced mobile support
+    const modal = document.getElementById("letterModal");
+    const modalContent = document.querySelector(".modal-content");
+    const openModalBtn = document.getElementById("openModal");
+    const closeModalBtn = document.getElementById("closeModal");
+
+    // Open modal with animation
+    openModalBtn.addEventListener("click", () => {
+      modal.style.display = "block";
+      document.body.style.overflow = "hidden"; // Prevent background scrolling
+      setTimeout(() => {
+        modal.classList.add("show");
+        setTimeout(() => {
+          modalContent.classList.add("show");
+        }, 100);
+      }, 10);
+    });
+
+    // Close modal with animation
+    function closeModal() {
+      modalContent.classList.remove("show");
+      setTimeout(() => {
+        modal.classList.remove("show");
+        setTimeout(() => {
+          modal.style.display = "none";
+          document.body.style.overflow = ""; // Restore scrolling
+        }, 300);
+      }, 300);
+    }
+
+    closeModalBtn.addEventListener("click", closeModal);
+
+    // Close if clicking outside the modal content
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Add touch events for mobile
+    openModalBtn.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      openModalBtn.click();
+    });
+
+    closeModalBtn.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      closeModalBtn.click();
+    });
+  </script>
+</body>
+</html>
